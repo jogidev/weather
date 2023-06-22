@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Weather</title>
+</head>
+
+<body>
+    <h1>Weather Forecast</h1>
+    <form id="weatherForm">
+        <label for="zipCode">Enter Zip Code:</label>
+        <input type="text" id="zipCode" name="zipCode" placeholder="Enter your zip code" required>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <div id="weatherData"></div>
+
+    <script>
+        document.getElementById("weatherForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            var zipCode = document.getElementById("zipCode").value;
+
+            // Make API request to fetch weather data
+            fetch("https://api.weather.com/your-api-endpoint?zip=" + zipCode + "&apikey=your-api-key")
+                .then(response => response.json())
+                .then(data => {
+                    // Extract the required weather information from the response
+                    var temperature = data.current.temperature;
+                    var description = data.current.weatherDescription;
+
+                    // Display the weather data on the HTML page
+                    var weatherDataDiv = document.getElementById("weatherData");
+                    weatherDataDiv.innerHTML = "<p>Temperature: " + temperature + "°C</p>"
+                        + "<p>Description: " + description + "</p>";
+                })
+                .catch(error => {
+                    console.log("Error:", error);
+                });
+        });
+    </script>
+</body>
+
+</html>
